@@ -1,0 +1,1761 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APJ NextGen AI · Tools Class Guide</title>
+<link rel="icon" type="image/png" href="images/apj-logo.png">
+<link rel="apple-touch-icon" href="images/apj-logo.png">
+<meta name="description" content="APJ NextGen AI Tools Class Guide — Perplexity, Gemini music, Suno, Claude.ai, Claude Code, GitHub, GitHub Pages. Step-by-step with screenshots, by Muhibbuddin Shaid Hakkeem.">
+<meta property="og:title" content="APJ NextGen AI · Tools Class Guide">
+<meta property="og:description" content="Step-by-step companion guide: Perplexity, Gemini Lyria, Suno, Claude.ai, Claude Code (web), GitHub & GitHub Pages.">
+<meta property="og:image" content="images/apj-logo.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0d12;
+  --bg-soft: #11141b;
+  --bg-card: #161a23;
+  --bg-elev: #1c212c;
+  --line: #232936;
+  --text: #e7ecf2;
+  --text-muted: #9aa3b2;
+  --text-dim: #6b7383;
+  --accent: #ff5d3a;
+  --accent-2: #ffaa3a;
+  --teal: #3ccfd0;
+  --green: #38d39f;
+  --red: #ff5b6e;
+  --purple: #b07cff;
+  --blue: #4d8cff;
+  --sky: #38c9ff;
+  --claude: #d97757;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ===== LAYOUT ===== */
+.wrap { max-width: 1100px; margin: 0 auto; }
+
+/* ===== SIDEBAR (overlay on all sizes) ===== */
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 280px; height: 100vh; overflow-y: auto;
+  padding: 72px 24px 32px;
+  border-right: 1px solid var(--line);
+  background: var(--bg-soft);
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.sidebar.open { transform: translateX(0); }
+body.no-scroll { overflow: hidden; }
+.sidebar h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px; font-weight: 800; letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sidebar .sub { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
+.sidebar nav a {
+  display: block; padding: 7px 10px; margin: 1px 0;
+  font-size: 13px; color: var(--text-muted);
+  border-radius: 6px; transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+.sidebar nav a:hover { color: var(--text); background: var(--bg-card); }
+.sidebar nav a.active { color: var(--accent); border-left-color: var(--accent); background: var(--bg-card); }
+.sidebar nav .group-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-dim); padding: 14px 10px 6px;
+}
+
+/* ===== SIDEBAR TOGGLE (always visible) ===== */
+.sidebar-toggle {
+  display: inline-flex;
+  position: fixed; top: 16px; left: 16px; z-index: 1001;
+  background: var(--bg-card); color: var(--text);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 9px 14px; font-size: 13px; font-weight: 600;
+  cursor: pointer; align-items: center; gap: 8px;
+}
+.sidebar-toggle .label-close { display: none; }
+.sidebar-toggle.open .label-open { display: none; }
+.sidebar-toggle.open .label-close { display: inline; }
+.sidebar-backdrop {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.6);
+}
+.sidebar-backdrop.open { display: block; }
+
+/* ===== SCROLL TO TOP ===== */
+.scroll-top {
+  position: fixed; bottom: 24px; right: 24px; z-index: 100;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  border: none; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(255,93,58,0.4);
+}
+.scroll-top.visible { display: flex; }
+.scroll-top svg { width: 20px; height: 20px; }
+
+/* ===== MAIN ===== */
+main { padding: 0; max-width: 980px; }
+@media (max-width: 920px) { main { padding: 0 16px; } }
+
+/* ===== HERO ===== */
+.hero {
+  padding: 80px 64px 60px;
+  background:
+    radial-gradient(ellipse at top right, rgba(255,93,58,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, rgba(76,140,255,0.10) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 920px) { .hero { padding: 48px 20px; } }
+.apj-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.apj-logo { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(255,170,58,0.4); padding: 2px; background: #fff; }
+.apj-text { line-height: 1.2; }
+.apj-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 18px; background: linear-gradient(135deg, #ff5d3a 0%, #ffaa3a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.apj-tag { font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; font-style: italic; }
+
+.hero-tag {
+  display: inline-block; padding: 6px 12px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(255,93,58,0.12); color: var(--accent);
+  border: 1px solid rgba(255,93,58,0.25); border-radius: 100px;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(42px, 6vw, 72px); font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.03em; margin-bottom: 20px;
+}
+.hero h1 .gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 50%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p.lead {
+  font-size: 19px; color: var(--text-muted); max-width: 720px; line-height: 1.55;
+  margin-bottom: 36px;
+}
+.hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+@media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.hero-mentor { display: flex; justify-content: flex-end; }
+.hero-mentor-card {
+  position: relative; text-align: center;
+  padding: 28px 28px 24px;
+  background: linear-gradient(180deg, rgba(22,26,35,0.85) 0%, rgba(22,26,35,0.7) 100%);
+  border: 1px solid rgba(255,170,58,0.18);
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  min-width: 240px;
+}
+.hero-mentor-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at top, rgba(255,93,58,0.12), transparent 60%);
+  pointer-events: none; border-radius: inherit;
+}
+.hero-mentor-photo-wrap {
+  position: relative; z-index: 1; width: 140px; height: 140px;
+  margin: 0 auto 22px; border-radius: 50%; padding: 3px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+}
+.hero-mentor-photo {
+  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+  display: block; border: 3px solid var(--bg-card);
+}
+.hero-mentor-label {
+  position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+  z-index: 2; font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #1a1207; padding: 5px 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  border-radius: 100px; box-shadow: 0 4px 14px rgba(255,93,58,0.45);
+  white-space: nowrap;
+}
+.hero-mentor-name {
+  position: relative; z-index: 1;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 18px;
+  color: var(--text); line-height: 1.25; letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.hero-mentor-role {
+  position: relative; z-index: 1;
+  font-size: 11px; color: var(--text-muted); letter-spacing: 0.04em;
+}
+
+.hero-stats { display: flex; gap: 36px; flex-wrap: wrap; }
+.hero-stat .num {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800;
+  background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-stat .label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* ===== SECTION ===== */
+section.part { padding: 64px 64px; border-bottom: 1px solid var(--line); }
+@media (max-width: 920px) { section.part { padding: 40px 20px; } }
+.part-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase;
+  margin-bottom: 8px; display: inline-block;
+}
+.part h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(30px, 4vw, 44px); font-weight: 800; letter-spacing: -0.025em;
+  margin-bottom: 20px; line-height: 1.1;
+}
+.part h2 .hi {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.part h2 .hi-sky {
+  background: linear-gradient(135deg, var(--sky) 0%, var(--purple) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.part h2 .hi-claude {
+  background: linear-gradient(135deg, var(--claude) 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.part h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px; font-weight: 700; letter-spacing: -0.015em;
+  margin: 40px 0 14px; line-height: 1.25;
+}
+.part h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px; font-weight: 700;
+  margin: 24px 0 10px; color: var(--text);
+}
+.part p { color: var(--text-muted); margin-bottom: 14px; max-width: 760px; }
+.part p strong { color: var(--text); font-weight: 600; }
+.part ul, .part ol { margin: 12px 0 18px 24px; color: var(--text-muted); }
+.part li { margin-bottom: 8px; max-width: 720px; }
+.part li::marker { color: var(--accent); }
+
+/* ===== STEP CARDS ===== */
+.steps { display: flex; flex-direction: column; gap: 18px; margin: 24px 0; }
+.step {
+  display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+  padding: 22px; background: var(--bg-card); border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.step .num {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  color: #1a1207; font-weight: 800; font-size: 18px;
+  display: grid; place-items: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.step .body h4 { margin-top: 0; margin-bottom: 6px; }
+.step .body p { margin-bottom: 0; }
+
+/* ===== IMAGES ===== */
+figure {
+  margin: 22px 0; background: var(--bg-elev); border: 1px solid var(--line);
+  border-radius: 14px; overflow: hidden;
+}
+figure img { display: block; width: 100%; height: auto; }
+figcaption {
+  padding: 10px 16px; background: var(--bg-elev);
+  font-size: 13px; color: var(--text-muted); text-align: center;
+  border-top: 1px solid var(--line); font-style: italic;
+}
+.figgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 22px 0; }
+.figgrid figure { margin: 0; }
+
+/* ===== SCREENSHOT PLACEHOLDERS =====
+   Drop a real image into images/ with the listed filename and the
+   placeholder is replaced automatically (the browser hides .ph-info
+   when the <img> renders).
+*/
+figure.ph {
+  position: relative; min-height: 220px;
+  border: 2px dashed rgba(255,93,58,0.35);
+  background:
+    repeating-linear-gradient(45deg,
+      rgba(255,93,58,0.03) 0 12px,
+      rgba(255,93,58,0.06) 12px 24px),
+    var(--bg-elev);
+  display: flex; align-items: center; justify-content: center;
+}
+figure.ph .ph-info {
+  text-align: center; padding: 28px 24px; max-width: 520px;
+}
+figure.ph .ph-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px;
+  background: rgba(255,93,58,0.18); color: var(--accent);
+  margin-bottom: 12px;
+}
+figure.ph .ph-file {
+  font-family: 'JetBrains Mono', monospace; font-size: 14px;
+  color: var(--text); font-weight: 600; margin-bottom: 8px;
+  word-break: break-all;
+}
+figure.ph .ph-desc {
+  font-size: 13px; color: var(--text-muted); line-height: 1.5;
+}
+figure.ph .ph-img {
+  display: none;
+}
+figure.ph.has-image { border-style: solid; border-color: var(--line); }
+figure.ph.has-image .ph-info { display: none; }
+figure.ph.has-image .ph-img { display: block; width: 100%; height: auto; }
+
+/* Clean stacked figure (image + caption) — used for the onion diagram */
+figure.onion-fig {
+  margin: 24px 0; padding: 0;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--bg-elev); overflow: hidden;
+}
+figure.onion-fig img {
+  display: block; width: 100%; height: auto;
+}
+figure.onion-fig figcaption {
+  text-align: center; font-style: italic;
+  color: var(--text-muted); opacity: 0.9;
+  padding: 14px 16px; font-size: 0.95rem; line-height: 1.5;
+  border-top: 1px solid var(--line);
+}
+
+/* ===== CALLOUTS ===== */
+.callout {
+  margin: 20px 0; padding: 16px 20px; border-radius: 12px;
+  border-left: 4px solid var(--accent);
+  background: rgba(255,93,58,0.05);
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.callout .icon { font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.callout .ct { color: var(--text-muted); }
+.callout strong { color: var(--text); display: block; margin-bottom: 2px; }
+.callout.tip { border-color: var(--green); background: rgba(56,211,159,0.06); }
+.callout.note { border-color: var(--accent-2); background: rgba(255,170,58,0.06); }
+.callout.warn { border-color: var(--red); background: rgba(255,91,110,0.06); }
+
+/* ===== KBD ===== */
+kbd {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  background: var(--bg-elev); color: var(--text);
+  padding: 3px 7px; border-radius: 6px;
+  border: 1px solid var(--line); border-bottom-width: 2px;
+  font-weight: 600;
+}
+code {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  background: var(--bg-elev); color: var(--accent-2);
+  padding: 2px 6px; border-radius: 4px;
+}
+
+/* ===== EXTERNAL LINK CARDS ===== */
+.link-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin: 18px 0; }
+.link-card {
+  display: block; padding: 14px 16px; background: var(--bg-card);
+  border: 1px solid var(--line); border-radius: 10px;
+  transition: all 0.15s;
+}
+.link-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.link-card .lc-title { font-weight: 700; color: var(--text); margin-bottom: 4px; font-size: 14px; }
+.link-card .lc-desc { font-size: 12px; color: var(--text-muted); }
+
+/* ===== BANNER ROW (chips) ===== */
+.banner-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 24px; }
+.pill {
+  display: inline-block; padding: 5px 12px; border-radius: 100px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+.pill.ok { color: var(--green); background: rgba(56,211,159,0.08); }
+.pill.warn { color: var(--accent-2); background: rgba(255,170,58,0.08); }
+.pill.bad { color: var(--red); background: rgba(255,91,110,0.08); }
+.pill.info { color: var(--sky); background: rgba(56,201,255,0.08); }
+
+/* ===== FEAT GRID ===== */
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 18px 0; }
+.feat {
+  padding: 18px; background: var(--bg-card);
+  border: 1px solid var(--line); border-radius: 12px;
+}
+.ft-icon { font-size: 24px; margin-bottom: 8px; }
+.ft-title { font-weight: 700; color: var(--text); margin-bottom: 6px; font-size: 15px; }
+.ft-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+/* ===== COMPARE TABLE ===== */
+.compare {
+  width: 100%; margin: 22px 0;
+  border-collapse: collapse; background: var(--bg-card);
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+}
+.compare th, .compare td {
+  padding: 12px 16px; text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px; vertical-align: top;
+}
+.compare th {
+  background: var(--bg-elev); font-weight: 700; color: var(--text);
+  font-size: 13px; letter-spacing: 0.04em;
+}
+.compare tr:last-child td { border-bottom: none; }
+.compare td { color: var(--text-muted); }
+.compare td strong { color: var(--text); }
+
+/* ===== PROMPT BLOCK (for sample Claude prompts) ===== */
+.prompt-block {
+  margin: 18px 0; padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(217,119,87,0.06), rgba(255,93,58,0.04));
+  border: 1px solid rgba(217,119,87,0.25);
+  border-left: 3px solid var(--claude);
+  border-radius: 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 13.5px;
+  color: var(--text); line-height: 1.6;
+  white-space: pre-wrap;
+}
+.prompt-block .prompt-label {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--claude); margin-bottom: 10px;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  padding: 48px 64px; text-align: center;
+  background: var(--bg-soft); border-top: 1px solid var(--line);
+}
+@media (max-width: 920px) { .site-footer { padding: 36px 20px; } }
+/* Curated-by banner above the mentor card */
+.curated-by {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; max-width: 700px; margin: 0 auto 24px;
+}
+.curated-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,170,58,0.4) 50%, transparent 100%);
+}
+.curated-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.04em; color: var(--text-muted);
+  text-align: center; flex-shrink: 0; font-style: italic;
+}
+.curated-text strong {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  font-weight: 800; font-style: normal;
+}
+@media (max-width: 600px) { .curated-text { font-size: 12px; } }
+.mentor-card {
+  display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center;
+  max-width: 880px; margin: 0 auto 32px;
+  padding: 28px;
+  background: var(--bg-card); border: 1px solid var(--line); border-radius: 18px;
+  position: relative; overflow: hidden;
+}
+.mentor-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at top right, rgba(255,93,58,0.08), transparent 60%);
+  pointer-events: none;
+}
+.mentor-photo-wrap { position: relative; z-index: 1; }
+.mentor-photo {
+  width: 130px; height: 130px; border-radius: 50%;
+  object-fit: cover; border: 3px solid var(--accent);
+  box-shadow: 0 8px 28px rgba(255,93,58,0.25);
+}
+.mentor-info { position: relative; z-index: 1; }
+.mentor-label {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent); padding: 4px 10px; background: rgba(255,93,58,0.12);
+  border: 1px solid rgba(255,93,58,0.25); border-radius: 100px; margin-bottom: 10px;
+}
+.mentor-name {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 22px;
+  color: var(--text); letter-spacing: -0.01em; margin-bottom: 4px;
+}
+.mentor-bio { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+.mentor-social {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;
+}
+.social-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: var(--bg-elev);
+  border: 1px solid var(--line); border-radius: 10px;
+  transition: all 0.15s; text-decoration: none;
+}
+.social-link:hover { transform: translateY(-1px); background: rgba(255,93,58,0.05); border-color: var(--accent); }
+.social-linkedin:hover { border-color: #0A66C2; }
+.social-instagram:hover { border-color: #E1306C; }
+.social-youtube:hover { border-color: #FF0000; }
+.social-icon { width: 26px; height: 26px; flex-shrink: 0; display: grid; place-items: center; color: var(--text-muted); }
+.social-icon svg { width: 22px; height: 22px; display: block; }
+.social-text { display: flex; flex-direction: column; min-width: 0; }
+.social-handle { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.social-platform { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.footer-meta { text-align: center; color: var(--text-dim); font-size: 12px; line-height: 1.7; }
+@media (max-width: 600px) {
+  .mentor-card { grid-template-columns: 1fr; text-align: center; padding: 24px; }
+  .mentor-photo-wrap { width: fit-content; margin: 0 auto; }
+  .mentor-photo { width: 110px; height: 110px; }
+  .mentor-label { display: inline-block; }
+  .social-link { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== MOBILE NAV ===================== -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle table of contents">
+  <span class="label-open">Contents</span>
+  <span class="label-close">Close</span>
+</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <line x1="12" y1="19" x2="12" y2="5"></line>
+    <polyline points="5,12 12,5 19,12"></polyline>
+  </svg>
+</button>
+
+<div class="wrap">
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" id="sidebar">
+  <h2>APJ NextGen AI</h2>
+  <div class="sub">Tools Class · Mentor — Shaid</div>
+  <nav>
+    <div class="group-label">Foundations</div>
+    <a href="#foundations">AI · ML · DL · Gen AI</a>
+    <a href="#assistants">AI assistants overview</a>
+
+    <div class="group-label">Perplexity</div>
+    <a href="#perp-what">What Perplexity is</a>
+    <a href="#perp-signup">Sign up & first search</a>
+    <a href="#perp-modes">Three modes</a>
+    <a href="#perp-deep">Deep Research walk-through</a>
+    <a href="#perp-vs">Perplexity vs ChatGPT</a>
+
+    <div class="group-label">Gemini · Music</div>
+    <a href="#gem-open">Open Gemini</a>
+    <a href="#gem-tools">Tools → Create music</a>
+    <a href="#gem-prompt">Prompt · generate · download</a>
+    <a href="#gem-plans">Plans & limits</a>
+
+    <div class="group-label">Suno</div>
+    <a href="#suno-signup">Sign up at suno.com</a>
+    <a href="#suno-mode">Pick a mode · describe it</a>
+    <a href="#suno-gen">Generate · play · share</a>
+    <a href="#suno-own">Who owns the music?</a>
+
+    <div class="group-label">Claude.ai</div>
+    <a href="#claude-what">What is Claude</a>
+    <a href="#claude-signup">Sign in to claude.ai</a>
+    <a href="#claude-projects">Projects feature</a>
+
+    <div class="group-label">Claude Code (Web)</div>
+    <a href="#cc-what">What is Claude Code</a>
+    <a href="#cc-open">Open Claude Code on the web</a>
+    <a href="#cc-attach">Attach your resume</a>
+    <a href="#cc-prompt">Prompt the landing page</a>
+    <a href="#cc-iterate">Iterate &amp; download</a>
+    <a href="#cc-save">Save as index.html</a>
+
+    <div class="group-label">GitHub</div>
+    <a href="#gh-signup">Sign up · sign in</a>
+    <a href="#gh-repo">Create a new repo</a>
+    <a href="#gh-upload">Upload index.html</a>
+
+    <div class="group-label">GitHub Pages</div>
+    <a href="#pg-settings">Settings · Pages</a>
+    <a href="#pg-branch">Pick the source branch</a>
+    <a href="#pg-live">Share the live URL</a>
+
+    <div class="group-label">Reference</div>
+    <a href="#compare">Tool comparison</a>
+    <a href="#mistakes">Common mistakes</a>
+  </nav>
+</aside>
+
+<!-- ===================== MAIN ===================== -->
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="apj-brand">
+        <img src="images/apj-logo.png" alt="APJ Academy logo" class="apj-logo">
+        <div class="apj-text">
+          <div class="apj-name">APJ Academy</div>
+          <div class="apj-tag">Learn Beyond Scoring</div>
+        </div>
+      </div>
+      <div class="hero-tag">Class Guide · Step-by-step · Visual</div>
+      <h1>APJ NextGen AI<br><span class="gradient">AI Tools</span> for productivity and creativity</h1>
+      <p class="lead">Perplexity, Gemini Lyria music, Suno, Claude.ai, Claude Code on the web, GitHub and GitHub Pages — explained step-by-step with screenshots. From "what is AI?" to "my landing page is live on the internet" in one afternoon.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">7</div><div class="label">Tools covered</div></div>
+        <div class="hero-stat"><div class="num">40+</div><div class="label">Step-by-step shots</div></div>
+        <div class="hero-stat"><div class="num">1</div><div class="label">Live website at the end</div></div>
+      </div>
+    </div>
+    <div class="hero-mentor">
+      <div class="hero-mentor-card">
+        <div class="hero-mentor-photo-wrap">
+          <img src="images/shaid-photo.jpeg" alt="Muhibbuddin Shaid Hakkeem" class="hero-mentor-photo">
+          <div class="hero-mentor-label">Mentor</div>
+        </div>
+        <div class="hero-mentor-name">Muhibbuddin<br>Shaid Hakkeem</div>
+        <div class="hero-mentor-role">APJ NextGen AI Class</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== FOUNDATIONS ============================== -->
+<section class="part" id="foundations">
+  <span class="part-num">Part 0 · Foundations</span>
+  <h2>The 90-second <span class="hi">AI primer</span></h2>
+  <p>Before we open any tool, four words you'll keep hearing — <strong>AI, ML, DL, Gen AI</strong>. They're not the same thing. Knowing the difference makes you sound less lost in an AI conversation.</p>
+
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="ft-icon">🧠</div>
+      <div class="ft-title">AI</div>
+      <div class="ft-text">The whole field — making machines do things that normally need human intelligence.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">📊</div>
+      <div class="ft-title">ML</div>
+      <div class="ft-text">A way to <em>do</em> AI — let the machine learn patterns from data instead of coding rules by hand.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">🕸️</div>
+      <div class="ft-title">DL</div>
+      <div class="ft-text">A flavour of ML using deep neural networks — what powers vision, speech, translation.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">✨</div>
+      <div class="ft-title">Gen AI</div>
+      <div class="ft-text">DL that <em>creates</em> — text, images, music, code. ChatGPT, Claude, Gemini, Suno all live here.</div>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <div class="icon">ℹ️</div>
+    <div class="ct"><strong>The onion analogy</strong>AI is the outer skin. ML is a layer inside. DL is a layer inside ML. Gen AI is the newest layer inside DL. Every tool in this guide sits in that innermost layer.</div>
+  </div>
+
+  <figure class="onion-fig">
+    <img src="images/ai-onion-model.png" alt="AI vs ML vs DL vs Gen AI — nested onion model">
+    <figcaption>Each circle sits inside the next — AI is the whole field, Gen AI is the newest core.</figcaption>
+  </figure>
+
+  <h3 id="assistants">Most-used AI assistants today</h3>
+  <p>You don't need to learn all of them. Here's the lay of the land so you know which one to reach for.</p>
+
+  <table class="compare">
+    <thead>
+      <tr><th>Assistant</th><th>Best at</th><th>Watch out for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>ChatGPT</strong></td><td>Everyday chat, writing, coding, images via DALL·E</td><td>Knowledge cutoff — invents facts when unsure</td></tr>
+      <tr><td><strong>Claude</strong></td><td>Long careful thinking, code, document analysis</td><td>No live web in the free chat by default</td></tr>
+      <tr><td><strong>Gemini</strong></td><td>Google integration, music (Lyria), video (Veo)</td><td>Worse at long code than Claude</td></tr>
+      <tr><td><strong>Perplexity</strong></td><td>Research with citations, current events</td><td>Not for creative writing or coding</td></tr>
+      <tr><td><strong>Suno</strong></td><td>Full songs with vocals &amp; lyrics</td><td>Free tier — Suno owns the songs (no commercial use)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip">
+    <div class="icon">💡</div>
+    <div class="ct"><strong>Rule of thumb</strong>Need a fact? Perplexity. Need to <em>think</em>? Claude. Need to <em>make</em>? Gemini / Suno. We'll use all of them today.</div>
+  </div>
+</section>
+
+<!-- ============================== PERPLEXITY ============================== -->
+<section class="part" id="perp-what">
+  <span class="part-num">Part 1 · Perplexity</span>
+  <h2>Your <span class="hi-sky">research co-pilot</span></h2>
+  <p>Perplexity is not Google. It's not ChatGPT. It's a search engine that <strong>thinks, cites, and explains</strong> — built for people who need to back up what they say. Every answer comes with footnoted sources you can click.</p>
+
+  <div class="banner-row">
+    <span class="pill info">100M+ monthly users</span>
+    <span class="pill ok">Free tier covers most student work</span>
+    <span class="pill warn">Pro $5/mo with student verification</span>
+  </div>
+
+  <h3 id="perp-signup">Sign up &amp; first search</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Open perplexity.ai</h4>
+      <p>Go to <code>perplexity.ai</code> in any browser. No app needed.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Sign in with Google</h4>
+      <p>Top-right → <kbd>Sign in</kbd> → continue with Google. Free tier starts immediately.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Type a question — not a keyword</h4>
+      <p>Perplexity thinks in full questions. Try <em>"What's the difference between mitosis and meiosis?"</em> — not <em>"mitosis meiosis"</em>.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot needed</span>
+      <div class="ph-file">images/perp_01_home.png</div>
+      <div class="ph-desc">Perplexity homepage with the search bar in the centre and quick-start chips (For you · Help me learn · Create a prototype · Recruiting) under the input.</div>
+    </div>
+    <img class="ph-img" src="images/perp_01_home.png" alt="Perplexity homepage" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="perp-modes">Three modes · three superpowers</h3>
+  <p>Same Perplexity, three completely different ways to ask.</p>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/perp_03_deep.png</div>
+      <div class="ph-desc">The modes dropdown next to the search bar — Search, Deep research, Model council, Learn step by step. Pick your mode here before you ask.</div>
+    </div>
+    <img class="ph-img" src="images/perp_03_deep.png" alt="Perplexity modes dropdown" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="ft-icon">🔎</div>
+      <div class="ft-title">Search Mode</div>
+      <div class="ft-text">Quick answers with citations. Beats Google for homework — every fact has a clickable source for your reference list.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">🧪</div>
+      <div class="ft-title">Deep Research</div>
+      <div class="ft-text">Returns a 3,000-word draft with 50+ sources. Free tier gets 5/day — perfect for board projects.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">📖</div>
+      <div class="ft-title">Learn Mode</div>
+      <div class="ft-text">Step-by-step tutor that quizzes you and re-explains the bits you missed. Great the night before a test.</div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">💡</div>
+    <div class="ct"><strong>Pro tip</strong>Always say your level — <em>"I'm in Class 11"</em> or <em>"explain at board exam level"</em>. Perplexity matches the depth to where you are. Don't ask like an adult; ask like a student.</div>
+  </div>
+
+  <h3 id="perp-deep">Deep Research — full walk-through</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Toggle Deep Research</h4>
+      <p>Below the search box, click the <kbd>Deep Research</kbd> chip so it lights up.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Ask a real research question</h4>
+      <p>Try <em>"Detailed report on CRISPR gene editing for my Class 12 Biology project"</em>. The more specific the audience, the better the report.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Watch it work</h4>
+      <p>It runs <strong>50+ web searches</strong> in front of you — reading, comparing, summarising. Takes 2-3 minutes.</p>
+    </div></div>
+    <div class="step"><div class="num">4</div><div class="body">
+      <h4>Export</h4>
+      <p>Top of the report → <kbd>Export</kbd> → PDF, Word, or Markdown. Always cite Perplexity if you use it directly in submitted work.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/perp_05_deep_running.png</div>
+      <div class="ph-desc">The "Deep Research running…" view — show the live list of sources being read.</div>
+    </div>
+    <img class="ph-img" src="images/perp_05_deep_running.png" alt="Deep Research running" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="perp-vs">So why not just use ChatGPT?</h3>
+  <p>Same question — completely different answers. Here's why it matters when you're <strong>writing for marks</strong>.</p>
+
+  <table class="compare">
+    <thead>
+      <tr><th></th><th>Perplexity</th><th>ChatGPT &amp; Claude</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Live web?</strong></td><td>Yes — every query searches the web</td><td>No (by default) — has a knowledge cutoff</td></tr>
+      <tr><td><strong>Citations?</strong></td><td>Mandatory — every fact has a footnote</td><td>None — you must take its word</td></tr>
+      <tr><td><strong>Hallucinations?</strong></td><td>Rare — sources keep it honest</td><td>Common — confident-sounding made-up facts</td></tr>
+      <tr><td><strong>Best for</strong></td><td>Research, current events, fact-finding</td><td>Writing, coding, brainstorming, ideas</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <div class="icon">⚠️</div>
+    <div class="ct"><strong>The trap</strong>If you copy a "fact" from ChatGPT into a board project without checking, you might be writing made-up information with full confidence. Use Perplexity for facts; Claude/ChatGPT for everything else.</div>
+  </div>
+</section>
+
+<!-- ============================== GEMINI MUSIC ============================== -->
+<section class="part" id="gem-open">
+  <span class="part-num">Part 2 · Gemini · Music</span>
+  <h2>Make a soundtrack <span class="hi">in 30 seconds</span></h2>
+  <p>Google's <strong>Lyria 3</strong> is built right into the Gemini app. No signup beyond Google. No DAW. No music theory. Just a prompt, and 30 seconds later you have an MP3.</p>
+
+  <div class="banner-row">
+    <span class="pill ok">Free · 10 tracks/day</span>
+    <span class="pill info">30-sec clip on free</span>
+    <span class="pill warn">3-min full track on AI Plus / Pro</span>
+  </div>
+
+  <h3>Step 1 — Open Gemini</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Visit gemini.google.com</h4>
+      <p>Use the same Google account you use for Gmail. There's also a Gemini app for Android &amp; iOS — same account works.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gem_01_home.png</div>
+      <div class="ph-desc">The Gemini home screen with "Hello — what should we create today?" headline and the input box at the bottom.</div>
+    </div>
+    <img class="ph-img" src="images/gem_01_home.png" alt="Gemini home" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="gem-tools">Step 2 — Tools → Create music</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Open the Tools menu</h4>
+      <p>Below the text box you'll see a small <kbd>⚙ Tools</kbd> pill. Click it.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Pick "Create music"</h4>
+      <p>You'll see options like <em>Deep Research</em>, <em>Create music</em>, <em>Create image</em>, <em>Create video</em>. Pick <strong>Create music</strong>.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Optional — drop in a mood reference</h4>
+      <p>You can attach a photo or short video. Gemini will match the music's mood to the image — useful for soundtracks under specific scenes.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gem_02_tools_menu.png</div>
+      <div class="ph-desc">The Tools dropdown open, with "Create music" option highlighted.</div>
+    </div>
+    <img class="ph-img" src="images/gem_02_tools_menu.png" alt="Gemini Tools menu" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="gem-prompt">Step 3 — Prompt · generate · download</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Write a vivid prompt</h4>
+      <p>Be intent-based, not vague. <em>"Lo-fi sunset chillhop, 80 BPM, piano lead, soft vinyl crackle, Chennai monsoon mood"</em> beats <em>"chill song"</em> every time.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Pick the model</h4>
+      <p><strong>Fast</strong> = 30-sec clip (free). <strong>Thinking / Pro</strong> = 3-min full track (paid). Free is plenty for class assignments.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Generate · listen · download</h4>
+      <p>Hit <kbd>Generate</kbd>. ~30 seconds later you get a track with cover art. Click the download icon → MP4 (with art) or MP3 (audio only).</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gem_03_track_ready.png</div>
+      <div class="ph-desc">The generated track UI — show the play button, waveform, cover art, and download icon.</div>
+    </div>
+    <img class="ph-img" src="images/gem_03_track_ready.png" alt="Gemini track ready" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <div class="callout tip">
+    <div class="icon">🎯</div>
+    <div class="ct"><strong>Prompting cheat sheet</strong>Always include — <strong>genre</strong> (lo-fi, indie folk, EDM), <strong>tempo</strong> (slow, 80 BPM, fast), <strong>instruments</strong> (piano, acoustic guitar, synth), <strong>mood</strong> (melancholy, hopeful, energetic), <strong>use case</strong> (intro music, study, gym).</div>
+  </div>
+
+  <h3 id="gem-plans">How much music can you make?</h3>
+  <table class="compare">
+    <thead>
+      <tr><th>Plan</th><th>Price</th><th>Tracks/day</th><th>Length</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Free</strong></td><td>₹0</td><td>10</td><td>30 sec (Fast)</td></tr>
+      <tr><td><strong>AI Plus</strong></td><td>$19.99/mo</td><td>10</td><td>3 min (Lyria 3 Pro)</td></tr>
+      <tr><td><strong>Pro</strong></td><td>$29.99/mo</td><td>20</td><td>3 min · Lyria 3 Pro</td></tr>
+      <tr><td><strong>Ultra</strong></td><td>$99.99/mo</td><td>50</td><td>3 min · priority access</td></tr>
+    </tbody>
+  </table>
+
+  <div class="link-list">
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="link-card">
+      <div class="lc-title">→ gemini.google.com</div>
+      <div class="lc-desc">Open Gemini in a new tab</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============================== SUNO ============================== -->
+<section class="part" id="suno-signup">
+  <span class="part-num">Part 3 · Suno</span>
+  <h2>Full songs <span class="hi">with vocals</span></h2>
+  <p>Where Gemini gives you a soundtrack, <strong>Suno writes you a song</strong> — lyrics, vocals, instrumentation, the lot. Real human-sounding singers in any genre, any language.</p>
+
+  <h3>Step 1 — Sign up at suno.com</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Visit suno.com</h4>
+      <p>No download. Works in any browser, including phones.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Sign in</h4>
+      <p>Continue with <strong>Google</strong>, <strong>Discord</strong>, or email. Free plan starts immediately — no card required.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/suno_01_home.png</div>
+      <div class="ph-desc">Suno landing / signed-in home with the "Create" button visible.</div>
+    </div>
+    <img class="ph-img" src="images/suno_01_home.png" alt="Suno home" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="suno-mode">Step 2 — Pick a mode · describe it</h3>
+  <p>Suno has two modes. Pick based on how much control you want.</p>
+
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="ft-icon">⚡</div>
+      <div class="ft-title">Simple mode</div>
+      <div class="ft-text">One field — describe the song in ~200 characters. Suno writes the lyrics for you.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">🎚</div>
+      <div class="ft-title">Custom mode</div>
+      <div class="ft-text">Three fields — your own <em>lyrics</em>, a <em>style</em> string, and a <em>title</em>. Toggle vocals on/off.</div>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <div class="icon">📝</div>
+    <div class="ct"><strong>Use structure tags in lyrics</strong>Wrap sections in tags so Suno knows the song structure: <code>[Verse]</code> <code>[Chorus]</code> <code>[Bridge]</code> <code>[Outro]</code>. Without these, you get a flat melody.</div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/suno_02_custom.png</div>
+      <div class="ph-desc">The Custom mode editor with Lyrics + Style + Title fields filled in. Show the Vocals toggle.</div>
+    </div>
+    <img class="ph-img" src="images/suno_02_custom.png" alt="Suno Custom mode" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="suno-gen">Step 3 — Generate · play · share</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Hit Create</h4>
+      <p>Each prompt drops <strong>2 versions</strong> in your library. Listen to both — pick the one that lands.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Extend or remix</h4>
+      <p>Right-click any track → <strong>Extend</strong> (add another verse), <strong>Remaster</strong> (re-render with the latest model), or <strong>Cover</strong> (same lyrics, different style).</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Download / share</h4>
+      <p>Track menu → <strong>Download MP3</strong> or <strong>Share link</strong>. Public links anyone can play, no login.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/suno_03_library.png</div>
+      <div class="ph-desc">Your library with two newly-generated versions of the same song.</div>
+    </div>
+    <img class="ph-img" src="images/suno_03_library.png" alt="Suno library" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="suno-own">Who owns the music?</h3>
+  <table class="compare">
+    <thead>
+      <tr><th>Plan</th><th>Price</th><th>Songs/month</th><th>Commercial use?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Basic (Free)</strong></td><td>$0</td><td>~10/day · 50 credits/day</td><td><span class="pill bad">No — Suno owns it</span></td></tr>
+      <tr><td><strong>Pro</strong></td><td>$10/mo</td><td>~500</td><td><span class="pill ok">Yes — you own it</span></td></tr>
+      <tr><td><strong>Premier</strong></td><td>$30/mo</td><td>~2,000</td><td><span class="pill ok">Yes — full commercial</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <div class="icon">⚖️</div>
+    <div class="ct"><strong>Free = personal use only</strong>Songs you generate on the free tier belong to Suno. You cannot upload them to Spotify or use them in monetised YouTube videos. Need that? Upgrade to Pro — $10/mo, full commercial license.</div>
+  </div>
+
+  <div class="link-list">
+    <a href="https://suno.com" target="_blank" rel="noopener" class="link-card">
+      <div class="lc-title">→ suno.com</div>
+      <div class="lc-desc">Open Suno in a new tab</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============================== CLAUDE ============================== -->
+<section class="part" id="claude-what">
+  <span class="part-num">Part 4 · Claude.ai</span>
+  <h2>Meet <span class="hi-claude">Claude</span></h2>
+  <p>Claude is an AI assistant built by <strong>Anthropic</strong> — known for safe, honest, careful long-form thinking. As of today it's <strong>#1 on coding benchmarks</strong> and the developer community's favourite for serious work.</p>
+
+  <div class="banner-row">
+    <span class="pill info">Made by Anthropic</span>
+    <span class="pill ok">#1 on SWE-Bench coding</span>
+    <span class="pill warn">Free tier · ~10 messages every 5 hrs</span>
+  </div>
+
+  <h3>Two flavours you'll actually use</h3>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="ft-icon">💬</div>
+      <div class="ft-title">Claude.ai — Chat &amp; Projects</div>
+      <div class="ft-text">The browser app at <code>claude.ai</code>. Upload docs, write, research, analyse, collaborate in shared Projects. <strong>For writers, analysts, everyday work.</strong></div>
+    </div>
+    <div class="feat">
+      <div class="ft-icon">⌨️</div>
+      <div class="ft-title">Claude Code</div>
+      <div class="ft-text">An agent that lives on the web (and in your terminal). Reads a repo, edits multiple files, runs tests, commits. <strong>For builders, developers, tinkerers.</strong> We'll use this next.</div>
+    </div>
+  </div>
+
+  <h3 id="claude-signup">Sign in to claude.ai</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Open claude.ai</h4>
+      <p>Any browser. Click <kbd>Sign up</kbd> (or <kbd>Sign in</kbd> if you already have an account).</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Continue with Google</h4>
+      <p>Same Google account is fine. You'll get a verification code on your phone the first time.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Land on the chat</h4>
+      <p>Big input box, file upload paperclip on the left, model picker top-left. The defaults are perfect for everyday use.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/claude_01_chat.png</div>
+      <div class="ph-desc">The Claude.ai chat home with the input box and Projects sidebar visible on the left.</div>
+    </div>
+    <img class="ph-img" src="images/claude_01_chat.png" alt="Claude chat home" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="claude-projects">Projects — the killer feature</h3>
+  <p>A <strong>Project</strong> is a shared workspace where you give Claude background context once — uploaded files, instructions, style — and every chat inside the project automatically uses it.</p>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Create a Project</h4>
+      <p>Left sidebar → <kbd>Projects</kbd> → <kbd>+ Create project</kbd>. Name it (e.g. <em>"My resume website"</em>).</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Add knowledge</h4>
+      <p>Drop in PDFs, docs, images. Resume, brand guidelines, sample writing — anything Claude should treat as background context for every chat in this project.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Set custom instructions</h4>
+      <p>Tell Claude how to behave inside this project — <em>"You're helping me build a personal portfolio. Always reply in friendly, plain English. Use Tailwind CSS in code."</em></p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/claude_02_project.png</div>
+      <div class="ph-desc">A Claude Project with knowledge files uploaded on the right and custom instructions filled in.</div>
+    </div>
+    <img class="ph-img" src="images/claude_02_project.png" alt="Claude Project view" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <div class="link-list">
+    <a href="https://claude.ai" target="_blank" rel="noopener" class="link-card">
+      <div class="lc-title">→ claude.ai</div>
+      <div class="lc-desc">Open Claude in a new tab</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============================== CLAUDE CODE (WEB) ============================== -->
+<section class="part" id="cc-what">
+  <span class="part-num">Part 5 · Claude Code (Web)</span>
+  <h2>Build a landing page from your <span class="hi-claude">resume</span></h2>
+  <p>Claude Code is Anthropic's coding agent. The <strong>web version</strong> at <code>claude.com/code</code> lets you build, preview, and download full websites — without ever opening a terminal. We'll feed it your resume and get a personal landing page back.</p>
+
+  <div class="banner-row">
+    <span class="pill info">claude.com/code</span>
+    <span class="pill ok">No setup · runs in browser</span>
+    <span class="pill warn">Needs Claude Pro or higher</span>
+  </div>
+
+  <h3 id="cc-open">Step 1 — Open Claude Code on the web</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Go to claude.com/code</h4>
+      <p>Same Claude account works. If you've only ever used <code>claude.ai</code> for chat, this is a different surface — same login, different tool.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Start a new session</h4>
+      <p>Click <kbd>+ New session</kbd>. You get a chat panel on the left and a live preview pane on the right.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_01_new_session.png</div>
+      <div class="ph-desc">Claude Code on the web — chat on left, empty preview pane on right.</div>
+    </div>
+    <img class="ph-img" src="images/cc_01_new_session.png" alt="Claude Code new session" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="cc-attach">Step 2 — Attach your resume</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Click the paperclip</h4>
+      <p>Bottom of the chat box. File picker opens.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Pick your resume</h4>
+      <p>PDF, Word, or even an image of your CV — all work. Claude can read text from images too.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Optionally add a photo</h4>
+      <p>Drop in a profile photo too — Claude can wire it into the hero section automatically.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_02_attach.png</div>
+      <div class="ph-desc">Resume PDF attached to the chat, ready to send.</div>
+    </div>
+    <img class="ph-img" src="images/cc_02_attach.png" alt="Resume attached" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="cc-prompt">Step 3 — Prompt the landing page</h3>
+  <p>This is the whole secret — a clear, specific prompt. Use this one as a starter (edit the bracketed bits):</p>
+
+  <div class="prompt-block">
+<span class="prompt-label">Sample prompt — copy &amp; edit</span>I've attached my resume. Build me a personal landing page as a single
+<code>index.html</code> file (HTML + CSS + JS in one file, no framework, no build step).
+
+Sections:
+1. Hero with my name, role, one-line tagline pulled from my resume
+2. About — 2-3 short paragraphs in a friendly first-person voice
+3. Experience — clean timeline of my last 3 roles
+4. Skills — chip cloud of my top 8 skills
+5. Featured projects — 3 cards (use placeholders if my resume has none)
+6. Contact — email + LinkedIn buttons
+
+Style:
+- Dark theme, modern, generous whitespace
+- Plus Jakarta Sans + Inter fonts from Google Fonts
+- Single accent colour: warm orange (#ff5d3a)
+- Smooth scroll, sticky top nav
+- Mobile-first responsive
+
+Keep all images as inline SVG or external URLs — no separate files.
+Output the full <code>index.html</code> in a single code block I can copy.
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">🎯</div>
+    <div class="ct"><strong>Why this prompt works</strong>It tells Claude — (1) the input (resume), (2) the output (single index.html), (3) the structure (numbered sections), (4) the style (dark, accent, fonts), and (5) the constraints (one file, no build). Vague prompts get vague websites.</div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_03a_thinking.png</div>
+      <div class="ph-desc">Claude reading your resume — show the "Thinking…" or planning state in the chat panel.</div>
+    </div>
+    <img class="ph-img" src="images/cc_03a_thinking.png" alt="Claude reading the resume" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_03b_writing_code.png</div>
+      <div class="ph-desc">Claude actively writing the HTML — code streaming in the chat panel.</div>
+    </div>
+    <img class="ph-img" src="images/cc_03b_writing_code.png" alt="Claude writing index.html" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_03c_preview.png</div>
+      <div class="ph-desc">Claude Code preview pane showing the freshly-generated landing page rendering live, with hero + name + about visible.</div>
+    </div>
+    <img class="ph-img" src="images/cc_03c_preview.png" alt="Generated landing page preview" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_03d_full_page.png</div>
+      <div class="ph-desc">Scroll the preview to show all sections — Experience, Skills, Projects, Contact. Confirms the resume content was used.</div>
+    </div>
+    <img class="ph-img" src="images/cc_03d_full_page.png" alt="Full landing page preview" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="cc-iterate">Step 4 — Iterate &amp; download</h3>
+  <p>Claude rarely nails it on the first try — and that's fine. Iterate by chatting.</p>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Refine in plain English</h4>
+      <p>Try follow-ups like — <em>"Make the hero bigger and add my profile photo"</em>, <em>"Change the accent to teal"</em>, <em>"Add a testimonials row above contact"</em>.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Preview live</h4>
+      <p>The right pane re-renders after every change. Resize the preview to see the mobile layout.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Download index.html</h4>
+      <p>Top-right of the preview → <kbd>Download</kbd>, or copy the code block from the chat into a new file called <code>index.html</code>. That single file <strong>is</strong> your website.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_04a_iteration.png</div>
+      <div class="ph-desc">A follow-up message in the chat — e.g. "Make the hero bigger and add my photo" — with the updated preview.</div>
+    </div>
+    <img class="ph-img" src="images/cc_04a_iteration.png" alt="Iterating in chat" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_04b_download.png</div>
+      <div class="ph-desc">Download button in Claude Code (or "Copy code" button on the code block) — show the action that exports the file.</div>
+    </div>
+    <img class="ph-img" src="images/cc_04b_download.png" alt="Download or copy index.html" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="cc-save">Step 5 — Save it as <code>index.html</code> on your computer</h3>
+  <p>This is the bridge between Claude and GitHub. The file on your computer is what we'll upload in Part 6.</p>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>If you clicked Download</h4>
+      <p>It lands in your <code>Downloads</code> folder. Check the filename is exactly <code>index.html</code> — rename if needed (right-click → Rename on Windows, F2 on Mac).</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>If you copied the code instead</h4>
+      <p>Open Notepad (Windows) or TextEdit (Mac, set to Plain Text mode: <kbd>Format</kbd> → <kbd>Make Plain Text</kbd>). Paste. Save as <code>index.html</code>. <strong>Make sure the dropdown says "All Files" — not "Text Document"</strong> or you'll get <code>index.html.txt</code>.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Double-click the file to test it</h4>
+      <p>It opens in your browser as a local website. If your landing page looks right here, it'll look right on GitHub Pages.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_05a_saved_file.png</div>
+      <div class="ph-desc">The saved <code>index.html</code> sitting in the Downloads folder (or Desktop), with the correct filename visible.</div>
+    </div>
+    <img class="ph-img" src="images/cc_05a_saved_file.png" alt="Saved index.html on Desktop" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/cc_05b_local_preview.png</div>
+      <div class="ph-desc">The downloaded index.html opened in a browser locally (URL starts with <code>file:///</code>) — proving it works before going to GitHub.</div>
+    </div>
+    <img class="ph-img" src="images/cc_05b_local_preview.png" alt="Local browser preview" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <div class="callout note">
+    <div class="icon">💾</div>
+    <div class="ct"><strong>Save it as exactly <code>index.html</code></strong>Lowercase. No spaces. No <code>.txt</code> at the end. GitHub Pages looks for that exact filename — anything else won't load as the homepage.</div>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">➡️</div>
+    <div class="ct"><strong>Next up — push it to GitHub</strong>You now have <code>index.html</code> on your computer. The next two parts take it from your laptop to a live URL on the internet.</div>
+  </div>
+</section>
+
+<!-- ============================== GITHUB ============================== -->
+<section class="part" id="gh-signup">
+  <span class="part-num">Part 6 · GitHub</span>
+  <h2>Push your project to <span class="hi-sky">GitHub</span></h2>
+  <p>GitHub is the world's biggest place to store code &amp; websites. <strong>Free forever</strong> for public projects. Your <code>index.html</code> goes here, and from here it gets a live URL.</p>
+
+  <h3>Step 1 — Sign up · sign in</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Open github.com</h4>
+      <p>Click <kbd>Sign up</kbd> top-right.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Pick a username carefully</h4>
+      <p>This becomes part of your live URL — <code>username.github.io/repo-name</code>. Pick something professional. Hard to change later.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Verify your email</h4>
+      <p>GitHub sends a verification code. Enter it. You're in.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gh_01_signup.png</div>
+      <div class="ph-desc">GitHub signup page, or the signed-in dashboard with the "+ New" button visible top-right.</div>
+    </div>
+    <img class="ph-img" src="images/gh_01_signup.png" alt="GitHub signup" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="gh-repo">Step 2 — Create a new repo</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Click + New</h4>
+      <p>Top-right → <kbd>+</kbd> → <kbd>New repository</kbd>.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Name your repo</h4>
+      <p>Use lowercase with hyphens — e.g. <code>my-portfolio</code> or <code>shaid-resume</code>. Spaces become hyphens automatically but pick clean names.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Pick "Public"</h4>
+      <p>GitHub Pages only works on public repos for free accounts. Don't worry — there's no requirement to put real personal info in the website itself.</p>
+    </div></div>
+    <div class="step"><div class="num">4</div><div class="body">
+      <h4>Skip the README for now</h4>
+      <p>Leave the boxes unchecked → <kbd>Create repository</kbd>. You'll land on an empty repo page with upload instructions.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gh_02_new_repo.png</div>
+      <div class="ph-desc">The "Create a new repository" form — repo name filled, Public radio selected.</div>
+    </div>
+    <img class="ph-img" src="images/gh_02_new_repo.png" alt="Create new repo" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="gh-upload">Step 3 — Upload the <code>index.html</code> Claude built for you</h3>
+  <p>This is the file you saved in <a href="#cc-save" style="color:var(--accent);">Part 5 · Step 5</a>. It should be sitting in your <code>Downloads</code> folder (or wherever you saved it).</p>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Click "uploading an existing file"</h4>
+      <p>On the empty repo page you'll see a <em>"or upload an existing file"</em> link. Click it. (Or — <kbd>Add file</kbd> dropdown → <kbd>Upload files</kbd>.)</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Drag your <code>index.html</code> in</h4>
+      <p>Drop the file from your Downloads folder onto the upload zone. Wait for the green tick — you should see <code>index.html</code> listed.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Commit</h4>
+      <p>Scroll down → leave the commit message as default (<em>"Add files via upload"</em>) → <kbd>Commit changes</kbd>. Your file is now stored on GitHub.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gh_03a_upload_zone.png</div>
+      <div class="ph-desc">The upload-files screen with the drag-and-drop zone visible and empty.</div>
+    </div>
+    <img class="ph-img" src="images/gh_03a_upload_zone.png" alt="GitHub upload zone" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gh_03b_file_added.png</div>
+      <div class="ph-desc">After dragging — show <code>index.html</code> listed with a green tick or filesize, and the commit button visible at the bottom.</div>
+    </div>
+    <img class="ph-img" src="images/gh_03b_file_added.png" alt="index.html ready to commit" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/gh_03c_committed.png</div>
+      <div class="ph-desc">The repo home page after the commit — show <code>index.html</code> in the file list with the latest commit message.</div>
+    </div>
+    <img class="ph-img" src="images/gh_03c_committed.png" alt="Repo with index.html" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <div class="callout tip">
+    <div class="icon">📁</div>
+    <div class="ct"><strong>What's a repo?</strong>A folder that lives on GitHub. Each one gets its own URL, version history, and can host a website. Anyone can view it, clone it, fork it. Yours, free, forever.</div>
+  </div>
+</section>
+
+<!-- ============================== GITHUB PAGES ============================== -->
+<section class="part" id="pg-settings">
+  <span class="part-num">Part 7 · GitHub Pages</span>
+  <h2>Turn your repo into a <span class="hi-sky">live website</span></h2>
+  <p>GitHub Pages gives every public repo a free public URL. Your <code>index.html</code> becomes a real, share-anywhere website in <strong>under 2 minutes</strong>.</p>
+
+  <h3>Step 1 — Open Settings · Pages</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Inside your repo, click Settings</h4>
+      <p>Top tab on the repo page. Right side. (Not the gear icon in the corner — that's account settings.)</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Scroll the left sidebar to "Pages"</h4>
+      <p>Under the <em>Code and automation</em> group → click <kbd>Pages</kbd>.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/pg_01_settings.png</div>
+      <div class="ph-desc">Repo Settings → Pages screen, before any source has been picked.</div>
+    </div>
+    <img class="ph-img" src="images/pg_01_settings.png" alt="Settings → Pages" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="pg-branch">Step 2 — Pick the source branch</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Under "Build and deployment"</h4>
+      <p><em>Source</em> → keep <strong>Deploy from a branch</strong>.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Branch dropdown → main</h4>
+      <p><em>Branch</em> → pick <code>main</code>. Folder → leave as <code>/(root)</code>.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Save</h4>
+      <p>Click <kbd>Save</kbd>. GitHub starts building your site immediately.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/pg_02_branch.png</div>
+      <div class="ph-desc">Branch picker showing "main" + "/(root)" selected, Save button highlighted.</div>
+    </div>
+    <img class="ph-img" src="images/pg_02_branch.png" alt="Pick source branch" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <h3 id="pg-live">Step 3 — Share the live URL</h3>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div class="body">
+      <h4>Wait ~30-60 seconds</h4>
+      <p>Refresh the Pages settings page. A green box appears at the top — <em>"Your site is live at…"</em>.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div class="body">
+      <h4>Visit the URL</h4>
+      <p>It looks like <code>https://username.github.io/repo-name/</code>. Open it in a new tab — that's your live website.</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div class="body">
+      <h4>Share it</h4>
+      <p>WhatsApp, LinkedIn, your CV, your email signature. Anyone with the link can see it. No login required for visitors.</p>
+    </div></div>
+  </div>
+
+  <figure class="ph">
+    <div class="ph-info">
+      <span class="ph-tag">Screenshot</span>
+      <div class="ph-file">images/pg_03_live.png</div>
+      <div class="ph-desc">The "Your site is live at https://username.github.io/repo/" green confirmation banner.</div>
+    </div>
+    <img class="ph-img" src="images/pg_03_live.png" alt="Site is live" onerror="this.parentElement.classList.remove('has-image')" onload="this.parentElement.classList.add('has-image')">
+  </figure>
+
+  <div class="callout note">
+    <div class="icon">📌</div>
+    <div class="ct"><strong>The naming rule</strong>The file must be called exactly <code>index.html</code> (lowercase) and live at the root of the repo. That's the homepage. Add more files later — each becomes a sub-page at <code>username.github.io/repo/about.html</code>, etc.</div>
+  </div>
+
+  <div class="callout tip">
+    <div class="icon">🔁</div>
+    <div class="ct"><strong>Updating your site later</strong>Edit <code>index.html</code> on your computer → upload the new version to the same repo (overwrite) → commit. Pages auto-rebuilds in ~30 seconds. No manual deploy.</div>
+  </div>
+</section>
+
+<!-- ============================== REFERENCE ============================== -->
+<section class="part" id="compare">
+  <span class="part-num">Reference</span>
+  <h2>Tool comparison <span class="hi">cheat sheet</span></h2>
+  <p>One table to remember which tool is for what.</p>
+
+  <table class="compare">
+    <thead>
+      <tr><th>Tool</th><th>Use it for</th><th>Don't use it for</th><th>Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Perplexity</strong></td>
+        <td>Research with citations · current events · Deep Research reports</td>
+        <td>Creative writing · code · brainstorming</td>
+        <td>Free · Pro $5/mo (student)</td>
+      </tr>
+      <tr>
+        <td><strong>Gemini · Music</strong></td>
+        <td>Background soundtracks · 30-sec clips · video music</td>
+        <td>Songs with vocals (use Suno)</td>
+        <td>Free · 10/day</td>
+      </tr>
+      <tr>
+        <td><strong>Suno</strong></td>
+        <td>Full songs with lyrics &amp; vocals · multiple genres</td>
+        <td>Royalty-free background music for monetised videos (free tier)</td>
+        <td>Free · Pro $10/mo</td>
+      </tr>
+      <tr>
+        <td><strong>Claude.ai</strong></td>
+        <td>Long careful thinking · writing · document analysis · Projects</td>
+        <td>Live news · current facts</td>
+        <td>Free · Pro $20/mo</td>
+      </tr>
+      <tr>
+        <td><strong>Claude Code</strong></td>
+        <td>Building real websites/apps · code that runs</td>
+        <td>Casual chat · simple Q&amp;A</td>
+        <td>Pro plan or above</td>
+      </tr>
+      <tr>
+        <td><strong>GitHub</strong></td>
+        <td>Storing your code &amp; websites · version history</td>
+        <td>Storing private files (use Drive)</td>
+        <td>Free for public</td>
+      </tr>
+      <tr>
+        <td><strong>GitHub Pages</strong></td>
+        <td>Hosting static websites for free · resume sites · class projects</td>
+        <td>Sites with backend / databases</td>
+        <td>Free</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="part" id="mistakes">
+  <span class="part-num">Reference</span>
+  <h2>Common <span class="hi">mistakes</span> &amp; FAQs</h2>
+
+  <h3>Things that catch students out</h3>
+
+  <div class="callout warn">
+    <div class="icon">❌</div>
+    <div class="ct"><strong>Pasting Perplexity answers without citing</strong>Teachers can spot AI-written paragraphs in seconds. Always rewrite in your own words and cite the underlying sources Perplexity gave you — not "Perplexity" itself.</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="icon">❌</div>
+    <div class="ct"><strong>Using free Suno songs commercially</strong>Free-tier songs belong to Suno. Don't upload them to Spotify or use in monetised YouTube videos. Upgrade to Pro ($10) if you need rights.</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="icon">❌</div>
+    <div class="ct"><strong>Naming the file <code>Index.html</code> with a capital I</strong>GitHub Pages is case-sensitive. <code>Index.html</code> won't load. Always lowercase <code>index.html</code>.</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="icon">❌</div>
+    <div class="ct"><strong>Making the repo Private</strong>GitHub Pages only works on public repos for free accounts. Private repos need a paid plan to publish.</div>
+  </div>
+
+  <div class="callout warn">
+    <div class="icon">❌</div>
+    <div class="ct"><strong>Vague prompts to Claude Code</strong><em>"Make me a website"</em> = generic template. <em>"Build a single index.html with hero, 3 project cards, dark theme, accent #ff5d3a, mobile responsive"</em> = the site you actually want.</div>
+  </div>
+
+  <h3>FAQs</h3>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="ft-title">My GitHub Pages site shows 404</div>
+      <div class="ft-text">Check — (1) repo is Public, (2) file is named exactly <code>index.html</code>, (3) you waited 1 full minute, (4) Settings → Pages source is <code>main</code> + <code>/(root)</code>.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-title">Can I use my own domain?</div>
+      <div class="ft-text">Yes — Settings → Pages → <em>Custom domain</em>. You'll need a domain from Namecheap / GoDaddy / Hostinger first.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-title">Does Claude Code work on phone?</div>
+      <div class="ft-text">The web version does, technically. But the preview pane is too cramped on mobile — best on a laptop / desktop.</div>
+    </div>
+    <div class="feat">
+      <div class="ft-title">Can I edit my site after publishing?</div>
+      <div class="ft-text">Yes — re-upload <code>index.html</code> to the same repo. GitHub Pages rebuilds automatically in ~30 sec.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="curated-by">
+    <span class="curated-line"></span>
+    <span class="curated-text">Notes &amp; clips curated carefully by</span>
+    <span class="curated-line"></span>
+  </div>
+  <div class="mentor-card">
+    <div class="mentor-photo-wrap">
+      <img src="images/shaid-photo.jpeg" alt="Muhibbuddin Shaid Hakkeem" class="mentor-photo">
+    </div>
+    <div class="mentor-info">
+      <div class="mentor-label">Mentor</div>
+      <div class="mentor-name">Muhibbuddin Shaid Hakkeem</div>
+      <div class="mentor-bio">APJ Academy · NextGen AI Class</div>
+      <div class="mentor-social">
+        <a href="https://www.shaid360.com" target="_blank" rel="noopener" class="social-link">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </span>
+          <span class="social-text"><span class="social-handle">shaid360.com</span><span class="social-platform">Website</span></span>
+        </a>
+        <a href="https://www.linkedin.com/in/shaid360" target="_blank" rel="noopener" class="social-link social-linkedin">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="#0A66C2" aria-hidden="true">
+              <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/>
+            </svg>
+          </span>
+          <span class="social-text"><span class="social-handle">/in/shaid360</span><span class="social-platform">LinkedIn</span></span>
+        </a>
+        <a href="https://www.instagram.com/ai360_with_shaid" target="_blank" rel="noopener" class="social-link social-instagram">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <defs>
+                <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FFDC80"/>
+                  <stop offset="20%" stop-color="#F77737"/>
+                  <stop offset="50%" stop-color="#F56040"/>
+                  <stop offset="75%" stop-color="#C13584"/>
+                  <stop offset="100%" stop-color="#833AB4"/>
+                </linearGradient>
+              </defs>
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#igGrad)"/>
+              <circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="2"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/>
+            </svg>
+          </span>
+          <span class="social-text"><span class="social-handle">@ai360_with_shaid</span><span class="social-platform">Instagram</span></span>
+        </a>
+        <a href="https://youtube.com/@ai360_with_shaid" target="_blank" rel="noopener" class="social-link social-youtube">
+          <span class="social-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8z" fill="#FF0000"/>
+              <polygon points="9.6,15.6 16,12 9.6,8.4" fill="#fff"/>
+            </svg>
+          </span>
+          <span class="social-text"><span class="social-handle">@ai360_with_shaid</span><span class="social-platform">YouTube</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">
+    <p>APJ NextGen AI Class · Updated May 2026</p>
+    <p>All screenshots reproduced for personal learning reference of APJ NextGen AI class students.</p>
+  </div>
+</footer>
+
+</main>
+</div>
+
+<script>
+// Sidebar toggle
+const toggle = document.getElementById('sidebarToggle');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('sidebarBackdrop');
+function setSidebar(open) {
+  toggle.classList.toggle('open', open);
+  sidebar.classList.toggle('open', open);
+  backdrop.classList.toggle('open', open);
+  document.body.classList.toggle('no-scroll', open);
+}
+function closeSidebar() { setSidebar(false); }
+function toggleSidebar() { setSidebar(!sidebar.classList.contains('open')); }
+toggle.addEventListener('click', toggleSidebar);
+backdrop.addEventListener('click', closeSidebar);
+document.querySelectorAll('.sidebar nav a').forEach(a => a.addEventListener('click', closeSidebar));
+
+// Keyboard shortcut: press "m" to toggle the menu (ignored when typing in inputs)
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'm' && e.key !== 'M') return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  e.preventDefault();
+  toggleSidebar();
+});
+// Close on Escape
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+
+// Active link on scroll
+const links = Array.from(document.querySelectorAll('.sidebar nav a'));
+const idToLink = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+const sections = links
+  .map(a => document.getElementById(a.getAttribute('href').slice(1)))
+  .filter(Boolean);
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(a => a.classList.remove('active'));
+      const link = idToLink.get(e.target.id);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-30% 0px -65% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// Scroll-to-top button
+const scrollTop = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollTop.classList.toggle('visible', window.scrollY > 600);
+});
+scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+</body>
+</html>
